@@ -1,0 +1,31 @@
+# Configuration file for video composition and comparison
+
+# List of video entries. Each entry must have a 'path' and 'description'.
+# All videos must have the same resolution, frame rate, and duration.
+# The number of videos must be between 1 and 4 (inclusive).
+videos:
+  - path: /home/autoware/ghq/github.com/tier4/AWMLtools/t4dataset_tools/videos/cuboid_x2_dev_2882fd53-23f4-4430-9693-682712fc4cba_2025-02-26T14:55:41+09:00_2025-02-26T14:56:41+09:00_kids_base_1.1_0.35.mp4
+    description: "base/v1.1, confidence 0.35 for all classes"
+  - path: /home/autoware/ghq/github.com/tier4/AWMLtools/t4dataset_tools/videos/cuboid_x2_dev_2882fd53-23f4-4430-9693-682712fc4cba_2025-02-26T14:55:41+09:00_2025-02-26T14:56:41+09:00_kids_base_1.4_0.35.mp4
+    description: "base/v1.4, confidence 0.35 for all classes"
+
+# The path where the composite output video will be saved.
+output_video: ./output_videos/base_1.1_vs_1.4_2.mp4
+
+# --- Text Area Settings ---
+# Height in pixels for the description area below each video frame.
+text_area_height: 80
+
+# Background color for the text area. Can be a color name (e.g., "white", "black", "red")
+# or an RGB tuple (e.g., [255, 0, 0] for red).
+text_area_color: [240, 240, 240] # Light grey
+
+# Font size for the description text.
+font_size: 25
+
+# Color for the description text. Can be a color name or an RGB tuple.
+font_color: "black"
+
+# Note: Ensure the 'description' text is concise enough to fit within the
+# text_area_height and video width. 'moviepy' will attempt basic wrapping
+# with method='caption', but long text may still be cut off.

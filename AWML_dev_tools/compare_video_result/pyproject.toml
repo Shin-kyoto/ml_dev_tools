@@ -1,0 +1,10 @@
+[project]
+name = "compare-video-result"
+version = "0.1.0"
+description = "A video concatenation tool to compare results from ml models."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "moviepy",
+    "PyYAML",
+]
