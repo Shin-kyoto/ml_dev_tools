@@ -1,5 +1,6 @@
 # ml_dev_tools
 *.mp4
+AWML_dev_tools/compare_video_result/config/private
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
