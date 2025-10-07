@@ -1,0 +1,4 @@
+config/private
+.venv
+*.egg-info
+uv.lock
