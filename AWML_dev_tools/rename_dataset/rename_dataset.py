@@ -3,6 +3,7 @@ import json
 import re
 import yaml
 import argparse
+import logging
 from pathlib import Path
 from typing import Dict, List, Any
 
@@ -26,31 +27,28 @@ class WebAuto:
             lines = result.stdout.strip().split('\n')
             dataset_ids = []
             
-            print(f"Debug: Raw output from webauto search:")
-            print(result.stdout)
-            print(f"Debug: Number of lines: {len(lines)}")
+            logging.debug(f"Raw output from webauto search: {result.stdout}")
+            logging.debug(f"Number of lines: {len(lines)}")
             
-            for i, line in enumerate(lines):
-                print(f"Debug: Line {i}: '{line.strip()}'")
+            for line in lines:
                 # Look for lines that start with "id" followed by whitespace and UUID
                 if line.strip().startswith('id'):
                     # Extract the UUID part after "id"
                     parts = line.strip().split()
-                    print(f"Debug: Found id line, parts: {parts}")
                     if len(parts) >= 2:
                         potential_id = parts[1]
                         # Validate it's a UUID format
                         uuid_pattern = r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
                         if re.match(uuid_pattern, potential_id):
                             dataset_ids.append(potential_id)
-                            print(f"Debug: Added dataset ID: {potential_id}")
+                            logging.debug(f"Found dataset ID: {potential_id}")
             
-            print(f"Debug: Final dataset_ids: {dataset_ids}")
+            logging.info(f"Found {len(dataset_ids)} datasets for keyword '{name_keyword}'")
             return dataset_ids
         except subprocess.CalledProcessError as e:
-            print(f"Error searching datasets: {e}")
-            print(f"stdout: {e.stdout}")
-            print(f"stderr: {e.stderr}")
+            logging.error(f"Error searching datasets: {e}")
+            logging.debug(f"stdout: {e.stdout}")
+            logging.debug(f"stderr: {e.stderr}")
             return []
 
     def describe(self, dataset_id: str) -> Dict[str, Any]:
@@ -66,12 +64,12 @@ class WebAuto:
             result = subprocess.run(cmd, capture_output=True, text=True, check=True)
             return json.loads(result.stdout)
         except subprocess.CalledProcessError as e:
-            print(f"Error describing dataset {dataset_id}: {e}")
-            print(f"stdout: {e.stdout}")
-            print(f"stderr: {e.stderr}")
+            logging.error(f"Error describing dataset {dataset_id}: {e}")
+            logging.debug(f"stdout: {e.stdout}")
+            logging.debug(f"stderr: {e.stderr}")
             return {}
         except json.JSONDecodeError as e:
-            print(f"Error parsing JSON for dataset {dataset_id}: {e}")
+            logging.error(f"Error parsing JSON for dataset {dataset_id}: {e}")
             return {}
 
     def update(self, dataset_id: str, new_name: str, dry_run: bool = False) -> bool:
@@ -85,18 +83,18 @@ class WebAuto:
         
         try:
             if dry_run:
-                print(f"DRY RUN: Would execute command: {' '.join(cmd)}")
-                print(f"DRY RUN: Would update dataset {dataset_id} to name: {new_name}")
+                logging.debug(f"DRY RUN: Would execute command: {' '.join(cmd)}")
                 return True
             else:
-                print(f"Executing command: {' '.join(cmd)}")
+                logging.info(f"Updating dataset {dataset_id} to name: {new_name}")
+                logging.debug(f"Executing command: {' '.join(cmd)}")
                 result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-                print(f"Successfully updated dataset {dataset_id} to name: {new_name}")
+                print(f"Successfully updated dataset {dataset_id}")
                 return True
         except subprocess.CalledProcessError as e:
-            print(f"Error updating dataset {dataset_id}: {e}")
-            print(f"stdout: {e.stdout}")
-            print(f"stderr: {e.stderr}")
+            logging.error(f"Error updating dataset {dataset_id}: {e}")
+            logging.debug(f"stdout: {e.stdout}")
+            logging.debug(f"stderr: {e.stderr}")
             return False
 
 
@@ -205,6 +203,11 @@ def parse_args():
         action="store_true",
         help="Show what would be done without actually updating datasets"
     )
+    parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Enable verbose output with detailed logging"
+    )
     
     return parser.parse_args()
 
@@ -212,6 +215,15 @@ def parse_args():
 def main():
     """Main entry point"""
     args = parse_args()
+    
+    # Configure logging based on verbose flag
+    log_level = logging.DEBUG if args.verbose else logging.INFO
+    logging.basicConfig(
+        level=log_level,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+    
     config_path = args.config
     
     print(f"Loading config from: {config_path}")
