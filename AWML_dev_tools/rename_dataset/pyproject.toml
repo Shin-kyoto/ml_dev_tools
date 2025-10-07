@@ -1,0 +1,7 @@
+[project]
+name = "rename-dataset"
+version = "0.1.0"
+description = "Dataset renaming tool"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []

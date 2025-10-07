@@ -1,0 +1,11 @@
+project_id: project_id
+
+name_keywords:
+  - DB_J6Gen2_v3.0_project_id
+  - DB_J6Gen2_v3.0_ProjectID
+
+rules_regexp:
+  - from: '^DB_J6Gen2_v3\.0_project_id(.*)$'
+    to: 'DB_J6Gen2_v3.0_DevOps_project_id\1'
+  - from: '^DB_J6Gen2_v3\.0_ProjectID(.*)$'
+    to: 'DB_J6Gen2_v3.0_DevOps_ProjectID\1'
