@@ -1,0 +1,375 @@
+Searching for video files in directory: /home/autoware/pseudo-label/video/20250515_exp
+Found 5 video file(s) to process:
+  - /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_b4d6cae5-a764-4eef-9692-a92825015fee__perception_object_recognition_detection_centerpoint_objects.mp4
+  - /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_a71971b0-81dc-492f-b8a6-a6e4f53ab2df__perception_object_recognition_detection_centerpoint_objects.mp4
+  - /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_47bd562f-3792-42f3-be27-497241ab1bbe__perception_object_recognition_detection_centerpoint_objects.mp4
+  - /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_bf0ed9ac-4821-4969-bcbf-e3627a121e86__perception_object_recognition_detection_centerpoint_objects.mp4
+  - /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_2508e6e8-07d0-4069-99a1-7bc29dd28cd2__perception_object_recognition_detection_centerpoint_objects.mp4
+Loading LLaVA model liuhaotian/llava-v1.6-mistral-7b (revision: edf96c5e9776fdd3f4ef324b5b7831b8b389c440) with fp16 precision...
+LLaVA Model and processor loaded.
+LLaVA Model and processor loaded.
+  DEBUG: Model vocabulary size: 32000
+  DEBUG: Processor/Tokenizer vocabulary size: 32000
+Loading translation model Helsinki-NLP/opus-mt-en-jap...
+Translation model loaded on cuda.
+
+Analyzing video: /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_b4d6cae5-a764-4eef-9692-a92825015fee__perception_object_recognition_detection_centerpoint_objects.mp4
+ Processing frame 0...
+  DEBUG: --- Input tensor details ---
+  DEBUG: Key: input_ids, Shape: torch.Size([1, 155]), Dtype: torch.int64, Device: cuda:0
+  DEBUG:         Min value: 1, Max value: 32000
+  DEBUG: Key: attention_mask, Shape: torch.Size([1, 155]), Dtype: torch.int64, Device: cuda:0
+  DEBUG:         Min value: 1, Max value: 1
+  DEBUG: Key: pixel_values, Shape: torch.Size([1, 4, 3, 336, 336]), Dtype: torch.float16, Device: cuda:0
+  DEBUG:         Min value: -1.7920, Max value: 2.0293, Mean value: -1.2306
+  DEBUG: Key: image_sizes, Shape: torch.Size([1, 2]), Dtype: torch.int64, Device: cuda:0
+  DEBUG:         Min value: 1860, Max value: 4320
+  DEBUG: --- End input tensor details ---
+  RUNTIME ERROR during model.generate: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 30...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 60...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 90...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 120...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Finished processing /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_b4d6cae5-a764-4eef-9692-a92825015fee__perception_object_recognition_detection_centerpoint_objects.mp4 in 3.00 seconds.
+
+Analyzing video: /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_a71971b0-81dc-492f-b8a6-a6e4f53ab2df__perception_object_recognition_detection_centerpoint_objects.mp4
+ Processing frame 0...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 30...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 60...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 90...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 120...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 150...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 180...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 210...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 240...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 270...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 300...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 330...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 360...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 390...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 420...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 450...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 480...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 510...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 540...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 570...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Finished processing /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_a71971b0-81dc-492f-b8a6-a6e4f53ab2df__perception_object_recognition_detection_centerpoint_objects.mp4 in 5.94 seconds.
+
+Analyzing video: /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_47bd562f-3792-42f3-be27-497241ab1bbe__perception_object_recognition_detection_centerpoint_objects.mp4
+ Processing frame 0...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 30...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 60...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 90...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 120...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 150...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 180...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 210...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 240...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 270...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 300...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 330...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 360...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 390...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 420...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 450...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 480...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 510...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 540...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 570...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Finished processing /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_47bd562f-3792-42f3-be27-497241ab1bbe__perception_object_recognition_detection_centerpoint_objects.mp4 in 5.13 seconds.
+
+Analyzing video: /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_bf0ed9ac-4821-4969-bcbf-e3627a121e86__perception_object_recognition_detection_centerpoint_objects.mp4
+ Processing frame 0...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 30...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 60...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 90...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 120...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 150...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 180...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 210...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 240...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 270...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 300...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 330...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 360...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 390...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 420...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 450...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 480...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 510...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 540...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Finished processing /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_bf0ed9ac-4821-4969-bcbf-e3627a121e86__perception_object_recognition_detection_centerpoint_objects.mp4 in 4.82 seconds.
+
+Analyzing video: /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_2508e6e8-07d0-4069-99a1-7bc29dd28cd2__perception_object_recognition_detection_centerpoint_objects.mp4
+ Processing frame 0...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 30...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 60...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 90...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 120...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 150...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 180...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 210...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 240...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 270...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 300...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 330...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 360...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 390...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 420...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 450...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 480...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 510...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+ Processing frame 540...
+  Error processing frame with LLaVA: CUDA error: device-side assert triggered
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Finished processing /home/autoware/pseudo-label/video/20250515_exp/x2_dev_8dc58113-7588-4e06-95f8-c9c77858eb67_2508e6e8-07d0-4069-99a1-7bc29dd28cd2__perception_object_recognition_detection_centerpoint_objects.mp4 in 4.54 seconds.
+
+Analysis complete. Results saved to output.yaml
+No critical incidents found.
+Total execution time: 23.42 seconds.

@@ -1,0 +1,24 @@
+video_dir_path: /home/autoware/pseudo-label/video/20250515_exp
+
+vlm_settings:
+  model_id: "liuhaotian/llava-v1.6-mistral-7b" # Hugging FaceのモデルID
+  quantization: "fp16"  # "fp16", "8bit", "4bit" から選択
+  prompt: |- # USER: ... ASSISTANT: 形式を推奨
+    USER: <image>
+    The video frame you are seeing has overlays from an object detection system where green boxes indicate detected objects.
+    Your task is to analyze this frame for autonomous driving safety. Specifically, identify:
+    1. Significant missed detections: Are there any important objects (like pedestrians, cars, cyclists) that should be in a green box but are not?
+    2. Significant false positives: Are there any green boxes shown on empty space, or around a clearly misclassified object?
+    If you find ANY such CRITICAL issues, please start your answer with "YES" and briefly explain the problem. Otherwise, start your answer with "NO".
+    ASSISTANT:
+  positive_keywords: # VLMの応答から「問題あり」と判断するキーワード (小文字)
+    - "yes"
+    - "critical issue"
+    - "missed detection"
+    - "false positive"
+    - "false negative"
+  negative_keywords: # VLMの応答から「問題なし」と判断するキーワード (小文字)
+    - "no critical issues"
+    - "looks good"
+
+frame_interval: 30 # 何フレームごとに処理するか (例: 30fpsの動画なら1秒に1フレーム)

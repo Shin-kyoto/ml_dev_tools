@@ -1,0 +1,23 @@
+[project]
+name = "select-dataset"
+version = "0.1.0"
+description = "A project to analyze videos using Vision Language Models (LLaVA) to find critical detection errors and provide translated reasons."
+requires-python = ">=3.12"
+
+dependencies = [
+    "opencv-python >= 4.0",
+    "Pillow >= 9.0",
+    "PyYAML >= 6.0",
+    "transformers[sentencepiece,accelerate] == 4.40.2", # バージョンを 4.40.2 に固定
+    "torch >= 2.0.0",
+    "torchvision >= 0.15.0",
+    "torchaudio >= 2.0.0",
+    "bitsandbytes >= 0.41.0",
+]
+[project.urls]
+Homepage = "https://github.com/yourusername/vlm-video-analyzer" # プロジェクトのURL (任意)
+Repository = "https://github.com/yourusername/vlm-video-analyzer" # プロジェクトのURL (任意)
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

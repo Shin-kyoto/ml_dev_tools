@@ -4,10 +4,34 @@ from typing import List, Dict, Any, Tuple, Union
 import yaml
 from moviepy.editor import VideoFileClip, ColorClip, TextClip, clips_array
 from moviepy.video.compositing.CompositeVideoClip import CompositeVideoClip # Used by clips_array
+from moviepy.video.VideoClip import VideoClip
+from PIL import Image
+import numpy as np
 
 # Define type aliases for clarity
 VideoConfig = Dict[str, Union[str, Path, str]] # Type hint for video entry in config
 ColorType = Union[str, Tuple[int, int, int]]
+
+def resize_video_clip(clip: VideoClip, target_size: Tuple[int, int]) -> VideoClip:
+    """
+    Resize a video clip using PIL's LANCZOS resampling method.
+    
+    Args:
+        clip: The video clip to resize
+        target_size: The target size as (width, height)
+        
+    Returns:
+        The resized video clip
+    """
+    def resize_frame(frame):
+        # Convert numpy array to PIL Image
+        pil_image = Image.fromarray(frame)
+        # Resize using LANCZOS resampling
+        resized_image = pil_image.resize(target_size, Image.Resampling.LANCZOS)
+        # Convert back to numpy array
+        return np.array(resized_image)
+    
+    return clip.fl_image(resize_frame)
 
 def load_config(yaml_path: Path) -> Dict[str, Any]:
     """
@@ -103,14 +127,14 @@ def load_config(yaml_path: Path) -> Dict[str, Any]:
 def verify_videos(video_configs: List[VideoConfig]):
     """
     Verifies that all videos in the list have the same properties
-    (size, fps, duration).
+    (fps, duration).
 
     Args:
         video_configs: A list of dictionaries, each with 'path' (Path object) and 'description'.
 
     Raises:
         FileNotFoundError: If any video file does not exist.
-        ValueError: If video properties (size, fps, or duration) do not match.
+        ValueError: If video properties (fps or duration) do not match.
         Exception: For other errors encountered while loading video clips.
     """
     if not video_configs:
@@ -125,15 +149,12 @@ def verify_videos(video_configs: List[VideoConfig]):
     try:
         # Load the first video to establish baseline properties
         print(f"Loading and checking base video: {base_video_path}")
-        if not base_video_path.exists():
-             raise FileNotFoundError(f"Video file not found: {base_video_path}")
         base_clip = VideoFileClip(str(base_video_path)) # moviepy often expects string paths
-        base_size = base_clip.size
         base_fps = base_clip.fps
         base_duration = base_clip.duration
         clips.append(base_clip)
 
-        print(f"Base properties: Size={base_size}, FPS={base_fps}, Duration={base_duration:.2f}s")
+        print(f"Base properties: FPS={base_fps}, Duration={base_duration:.2f}s")
 
         # Check subsequent videos against the base
         for i, video_entry in enumerate(video_configs[1:], start=2):
@@ -143,11 +164,6 @@ def verify_videos(video_configs: List[VideoConfig]):
                  raise FileNotFoundError(f"Video file not found: {path}")
 
             clip = VideoFileClip(str(path)) # moviepy often expects string paths
-            if clip.size != base_size:
-                raise ValueError(
-                    f"Video size mismatch: '{path}' has size {clip.size}, "
-                    f"expected {base_size} from '{base_video_path}'"
-                )
             if clip.fps != base_fps:
                  # Allow for minor floating point differences
                 if abs(clip.fps - base_fps) > 0.001:
@@ -155,7 +171,7 @@ def verify_videos(video_configs: List[VideoConfig]):
                         f"Video FPS mismatch: '{path}' has FPS {clip.fps}, "
                         f"expected {base_fps} from '{base_video_path}'"
                     )
-            if abs(clip.duration - base_duration) > 0.1: # Allow minor duration difference
+            if abs(clip.duration - base_duration) > 0.5: # Allow up to 0.5 seconds difference
                  raise ValueError(
                     f"Video duration mismatch: '{path}' has duration {clip.duration:.2f}s, "
                     f"expected {base_duration:.2f}s from '{base_video_path}'"
@@ -179,7 +195,16 @@ def verify_videos(video_configs: List[VideoConfig]):
 
 def process_and_composite_videos(video_configs: List[VideoConfig], output_path: Path, config: Dict[str, Any]):
     """
-    Loads videos, adds text descriptions in a bottom margin, and composites them horizontally.
+    Loads videos, adds text descriptions in a bottom margin, and composites them in a grid.
+    Videos with different sizes will be resized to match the first video's size.
+
+    Arrangement:
+    - N=1: Single video + text area
+    - N=2: [Video1+Text] [Video2+Text] (1 row, 2 columns)
+    - N=3: [Video1+Text] [Video2+Text]
+           [Video3+Text] [Blank Area  ] (2 rows, 2 columns)
+    - N=4: [Video1+Text] [Video2+Text]
+           [Video3+Text] [Video4+Text] (2 rows, 2 columns)
 
     Args:
         video_configs: A list of dictionaries, each with 'path' (Path object) and 'description'.
@@ -192,81 +217,117 @@ def process_and_composite_videos(video_configs: List[VideoConfig], output_path: 
     print(f"Loading video clips for composition: {[str(v['path']) for v in video_configs]}")
 
     text_area_height = config['text_area_height']
-    text_area_color = config['text_area_color']
+    text_area_color = (255, 255, 255)
     font_size = config['font_size']
     font_color = config['font_color']
 
-    # Load the first clip to get dimensions for composition
-    # Verification ensures all others match these dimensions
+    # Load the first clip to get dimensions and duration for composition
     first_clip = VideoFileClip(str(video_configs[0]['path']))
-    original_width, original_height = first_clip.size
-    first_clip.close() # Close after getting dimensions
+    target_width, target_height = first_clip.size
+    clip_duration = first_clip.duration
+    clip_fps = first_clip.fps
+    first_clip.close()
 
-    combined_vertical_clips = [] # List to hold [Video + Text Area] clips
+    combined_vertical_clips: List[VideoClip] = []
+    loaded_clips = []
 
-    loaded_clips = [] # Keep track of clips to close
     for i, video_entry in enumerate(video_configs):
         video_path = video_entry['path']
         description = video_entry['description']
 
         print(f"Processing video {i+1}: {video_path}")
 
-        # 1. Load the video clip
+        # 1. Load the video clip and resize if necessary
         video_clip = VideoFileClip(str(video_path))
-        loaded_clips.append(video_clip) # Add to list to close later
+        if video_clip.size != (target_width, target_height):
+            print(f"Resizing video {i+1} from {video_clip.size} to {(target_width, target_height)}")
+            video_clip = resize_video_clip(video_clip, (target_width, target_height))
+        video_clip = video_clip.set_duration(clip_duration).set_fps(clip_fps)
+        loaded_clips.append(video_clip)
 
         # 2. Create the colored background clip for text
-        # Ensure it has the same duration as the video clip
         color_clip = ColorClip(
-            size=(original_width, text_area_height),
+            size=(target_width, text_area_height),
             color=(255, 255, 255),
             ismask=False,
-            duration=video_clip.duration
+            duration=clip_duration
         )
+        loaded_clips.append(color_clip)
 
-        loaded_clips.append(color_clip) # Add to list to close later
-
+        try:
+            color_clip = color_clip.add_mask()
+        except Exception as e:
+            print(f"Warning: Could not add mask to color clip: {e}", file=sys.stderr)
 
         # 3. Create the text clip
-        # Ensure it has the same duration as the video clip
         text_clip = TextClip(
             description,
             fontsize=font_size,
             color=font_color,
-            method='caption', # Use 'caption' for basic auto-wrapping if text is too wide
-            size=(original_width * 0.9, None) # Limit text width to avoid edge issues
-        )
-        # Center the text clip on the color clip
-        text_clip = text_clip.set_position('center').set_duration(video_clip.duration)
-        loaded_clips.append(text_clip) # Add to list to close later
+            method='label',
+            size=(target_width * 0.9, None),
+            bg_color='white',
+        ).set_position('center').set_duration(clip_duration)
+        loaded_clips.append(text_clip)
 
         # 4. Composite the text clip onto the color clip
-        # This places the text centered on the colored background
-        text_area_composite = CompositeVideoClip([color_clip, text_clip], use_bgclip=True)
-        loaded_clips.append(text_area_composite) # Add to list to close later
-
+        text_area_composite = CompositeVideoClip(
+            [color_clip, text_clip],
+            size=(target_width, text_area_height),
+            use_bgclip=True
+        ).set_duration(clip_duration)
+        loaded_clips.append(text_area_composite)
 
         # 5. Stack the original video clip above the text area composite
-        # Use clips_array to stack vertically
         combined_vertical = clips_array([
-            [video_clip],          # Row 1: The original video
-            [text_area_composite]  # Row 2: The colored text area
-        ])
-        # Duration is automatically set by clips_array based on the duration of components
+            [video_clip],
+            [text_area_composite]
+        ]).set_duration(clip_duration).set_fps(clip_fps)
+
         combined_vertical_clips.append(combined_vertical)
 
+    # --- Arrangement Logic based on number of videos (N) ---
+    N = len(combined_vertical_clips)
 
-    if not combined_vertical_clips:
-            raise ValueError("No combined vertical clips created.")
-
-    if len(combined_vertical_clips) == 1:
-        print("Only one video processed. Outputting the single composite video.")
+    if N == 0: # Should be caught by load_config, but safety check
+            raise ValueError("No video clips processed.")
+    elif N == 1:
+        print("Arranging 1 video...")
         final_composite = combined_vertical_clips[0]
-    else:
-        print(f"Compositing {len(combined_vertical_clips)} videos horizontally...")
-        # Arrange the combined vertical clips horizontally
-        # Use clips_array to place them side-by-side
-        final_composite = clips_array([combined_vertical_clips]) # Pass list of clips as a single row
+    elif N == 2:
+        print("Arranging 2 videos side-by-side...")
+        # Arrange as a single row: [V1+T1, V2+T2]
+        final_composite = clips_array([combined_vertical_clips])
+    elif N == 3:
+        print("Arranging 3 videos in a 2x2 grid with a blank space...")
+        # Create a blank white clip with the same size and duration as the combined vertical clips
+        blank_clip_size = (target_width, target_height + text_area_height)
+        blank_clip = ColorClip(
+            size=blank_clip_size,
+            color=(255, 255, 255), # White color
+            ismask=False,
+            duration=clip_duration # Use determined duration
+        ).set_fps(clip_fps) # Set FPS
+        loaded_clips.append(blank_clip) # Add to list to close later
+
+        # Arrange in a 2x2 grid:
+        # [V1+T1, V2+T2]
+        # [V3+T3, Blank ]
+        final_composite = clips_array([
+            [combined_vertical_clips[0], combined_vertical_clips[1]], # Row 1
+            [combined_vertical_clips[2], blank_clip]                 # Row 2
+        ])
+    elif N == 4:
+            print("Arranging 4 videos in a 2x2 grid...")
+            # Arrange in a 2x2 grid:
+            # [V1+T1, V2+T2]
+            # [V3+T3, V4+T4]
+            final_composite = clips_array([
+                [combined_vertical_clips[0], combined_vertical_clips[1]], # Row 1
+                [combined_vertical_clips[2], combined_vertical_clips[3]]  # Row 2
+            ])
+    else: # N should be < 5 based on load_config validation, but safety check
+            raise ValueError(f"Unsupported number of videos: {N}")
 
 
     print(f"Writing output video: {output_path}")
@@ -275,9 +336,12 @@ def process_and_composite_videos(video_configs: List[VideoConfig], output_path: 
     final_composite.write_videofile(
         str(output_path), # moviepy expects string path for write_videofile
         codec='libx264',
-        fps=video_clip.fps, # Use the verified FPS
+        fps=clip_fps, # Use the determined FPS
         threads=4, # Optional: Use multiple threads for faster encoding
-        preset='medium' # Optional: Encoding speed/compression trade-off
+        preset='medium', # Optional: Encoding speed/compression trade-off
+        # Add audio=True/False depending on if you want audio from the first clip
+        audio=(len(video_configs) > 0) # Include audio from the first clip if available
     )
 
     print("Video composition and writing complete.")
+
